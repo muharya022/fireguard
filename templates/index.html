@@ -1,0 +1,617 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FireGuard</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .full-screen {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 15px;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 1s ease-in-out;
+      z-index: 0;
+      opacity: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4); /* overlay hitam semi transparan */
+      z-index: 1;
+    }
+
+    .hero .content {
+      position: relative;
+      z-index: 2;
+      color: white;
+    }
+
+    .section {
+      padding: 60px 0;
+    }
+
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: #2c2c2c;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(255, 69, 0, 0.6);
+    }
+
+    .feature-card i {
+      margin-bottom: 1rem;
+    }
+
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 20px rgba(255, 69, 0, 0.5);
+      border: 1px solid #ff4500;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      background: #1a1a1a;
+      border: none;
+      color: #fff;
+    }
+
+    .footer {
+      background-color: #1a1a1a;
+      padding: 20px 0;
+    }
+
+    .navbar {
+      background-color: transparent !important;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+      color: white !important;
+      font-weight: bold;
+    }
+
+    .navbar.scrolled {
+      background-color: rgba(13, 13, 13, 0.85) !important;
+      backdrop-filter: saturate(180%) blur(20px);
+      transition: background-color 0.3s ease;
+    }
+    .navbar .nav-link:hover {
+      color: #ff4500 !important; /* Warna saat hover */
+      background-color: rgba(255, 255, 255, 0.05); /* Sedikit latar belakang transparan */
+      border-radius: 5px;
+      padding: 6px 12px;
+      transition: all 0.3s ease;
+    }
+    .alert {
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+
+
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container mb-2 mt-2">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+      <i class="bi bi-fire me-2 text-warning"></i> FireGuard
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#home">
+            <i class="bi bi-house-door-fill me-2"></i>Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#features">
+            <i class="bi bi-stars me-2"></i>Feature
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">
+            <i class="bi bi-info-circle-fill me-2"></i>About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#monitoring">
+            <i class="bi bi-broadcast-pin me-2"></i>Deteksi
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'history_page' %}">
+            <i class="bi bi-clock-history me-2"></i>History
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'chat' %}">
+            <i class="bi bi-robot me-2"></i>Chat Ai Bot
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section id="home" class="hero full-screen" data-aos="fade-up">
+  <div class="hero-bg"></div> <!-- Tambahkan div khusus untuk background -->
+  <div class="overlay"></div> <!-- Tambahkan overlay untuk gelap transparan -->
+
+  <div class="container content">
+    <h1>Sistem Deteksi Kebakaran <i class="bi bi-fire me-2 text-warning"></i>FireGuard</h1>
+    <p>Solusi cerdas berbasis AI untuk mendeteksi kebakaran secara cepat dan akurat.</p>
+    <a href="#monitoring" class="btn btn-danger mt-4">
+      <i class="bi bi-camera-video me-2"></i>Deteksi
+    </a>
+  </div>
+</section>
+
+
+  <!-- Fungsi Aplikasi Section -->
+  <section id="features" class="section full-screen bg-dark text-white" data-aos="fade-up">
+    <div class="container text-center">
+      <h2 class="mb-5">Fungsi Aplikasi</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fa-solid fa-bolt fa-3x text-danger"></i>
+            <h4 class="my-3">Deteksi Cepat</h4>
+            <p>Aplikasi mampu mendeteksi kebakaran dan asap secara real-time menggunakan teknologi AI.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fa-solid fa-shield-halved fa-3x text-warning"></i>
+            <h4 class="my-3">Peringatan Dini</h4>
+            <p>Memberikan notifikasi dan alarm secara otomatis untuk mencegah kerusakan lebih besar.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fa-solid fa-chart-line fa-3x text-success"></i>
+            <h4 class="my-3">Laporan & Statistik</h4>
+            <p>Menyediakan data lengkap dan analisa kebakaran untuk pengambilan keputusan yang tepat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detection Results Section -->
+  <section id="about" class="section full-screen bg-dark text-white text-center" data-aos="fade-up">
+    <div class="container">
+      <h2 class="mb-5">DETECTION RESULTS</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+          <div class="card bg-dark text-white shadow-lg border-0">
+            <img src="{% static 'images/fire.jpg' %}" class="card-img-top" alt="Fire Detected" />
+            <div class="card-body">
+              <h5 class="card-title text-danger fw-bold"><i class="bi bi-fire me-2"></i>Fire / Smoke Fire Detected</h5>
+              <p class="card-text">Area identified with potential fire hazard. Immediate response required.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card bg-dark text-white shadow-lg border-0">
+            <img src="{% static 'images/nofire.jpeg' %}" class="card-img-top" alt="No Fire" />
+            <div class="card-body">
+              <h5 class="card-title text-success fw-bold"><i class="bi bi-check-circle-fill me-2"></i>No Fire</h5>
+              <p class="card-text">This area is currently safe and shows no signs of fire or smoke.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card bg-dark text-white shadow-lg border-0">
+            <img src="{% static 'images/smoke.jpeg' %}" class="card-img-top" alt="Smoke Detected" />
+            <div class="card-body">
+              <h5 class="card-title text-warning fw-bold"><i class="bi bi-cloud-fog2-fill me-2"></i>Smoke Detected</h5>
+              <p class="card-text">Smoke detected in the vicinity; monitoring closely for fire risk.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Real Time Monitoring Section -->
+<section id="monitoring" class="section full-screen bg-dark text-white" data-aos="fade-up">
+  <div class="container">
+    <h2 class="mb-5 text-center">Real Time Monitoring</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-6 text-center">
+        <video id="video" width="80%" height="auto" autoplay muted playsinline style="border-radius: 10px; border: 2px solid #ff4500;"></video>
+        <div class="mt-3">
+          <button id="btnStart" class="btn btn-danger me-2">
+            <i class="fa-solid fa-video"></i> Start Camera
+          </button>
+          <button id="btnStop" class="btn btn-secondary">
+            <i class="fa-solid fa-stop"></i> Stop Camera
+          </button>
+        </div>
+        <!-- Static file: alarm.mp3 -->
+        <audio id="fireSound" src="{% static 'audio/alarm.wav' %}" preload="auto"></audio>
+
+        <div id="result" class="mt-3 text-warning fw-bold text-center">Belum ada deteksi</div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Upload File Section -->
+<section id="upload" class="section full-screen bg-dark text-white" data-aos="fade-up">
+  <div class="container">
+    <h2 class="mb-5 text-center">Upload Gambar atau Video</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-6 text-center">
+
+        <!-- Upload input -->
+        <div class="text-start">
+          <label for="uploadFile" class="form-label">Upload Gambar atau Video untuk Deteksi:</label>
+          <input type="file" id="uploadFile" accept="image/*,video/*" class="form-control" />
+        </div>
+
+        <!-- Preview -->
+        <div id="previewContainer" class="mt-3" style="display:none;">
+          <h5>Preview:</h5>
+          <img id="previewImage" style="max-width: 100%; max-height: 400px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;" />
+          <video id="previewVideo" controls style="max-width: 100%; max-height: 400px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;"></video>
+        </div>
+
+        <!-- Result -->
+        <div id="resultupload" class="mt-3 text-warning fw-bold text-center">Belum ada deteksi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer class="footer text-center text-muted">
+    <div class="container text-white">
+      &copy; 2025 FireGuard - All Rights Reserved
+    </div>
+  </footer>
+
+  <!-- Floating Alarm Button & Panel -->
+<div id="floatingAlarm" style="position: fixed; top: 100px; right: 20px; z-index: 9999; display: none;">
+  <!-- Alarm Icon Button -->
+  <button id="alarmToggle" class="btn btn-danger rounded-circle shadow" style="width: 56px; height: 56px; padding: 0;" title="Alarm Kebakaran">
+    <i class="fa-solid fa-bell fa-shake" style="font-size: 28px;"></i>
+  </button>
+
+  <!-- Alarm Info Panel (hidden by default) -->
+  <div id="alarmPanel" class="alert alert-danger mt-3 p-3" style="display: none; width: 260px;">
+    <strong>🔥 Kebakaran Terdeteksi!</strong><br>
+    Segera hubungi pemadam kebakaran terdekat.<br><br>
+
+    <a href="tel:113" class="btn btn-outline-light btn-sm w-100 mb-2">
+      📞 Telepon 113
+    </a>
+    <a href="https://wa.me/6282311662789?text=Telah%20terjadi%20deteksi%20kebakaran%20di%20lokasi%20[koordinat],%20Mohon%20datang%20secepatnya!!!" 
+      class="btn btn-success btn-sm w-100" target="_blank">
+      💬 WhatsApp Damkar
+    </a>
+  </div>
+</div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+  function showFireAlarm() {
+    const floatingAlarm = document.getElementById("floatingAlarm");
+    const alarmPanel = document.getElementById("alarmPanel");
+
+    floatingAlarm.style.display = "block";
+    alarmPanel.style.display = "none"; // default panel tertutup
+
+    // Tambahkan animasi bel
+    const bellIcon = document.querySelector("#alarmToggle i");
+    bellIcon.classList.add("fa-shake");
+    fireSound.play();
+  }
+
+  // Toggle panel saat tombol bel diklik
+  document.getElementById("alarmToggle").addEventListener("click", () => {
+    const panel = document.getElementById("alarmPanel");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+  });
+
+  // Contoh pemanggilan ketika deteksi terjadi
+  function handleDetectionResult(result) {
+  const resultElement = document.getElementById("result");
+  const lowerResult = result.toLowerCase();
+
+  console.log("Hasil Deteksi:", lowerResult);
+
+  const isNoFire = lowerResult.includes("nofire") || lowerResult.includes("tidak ada api");
+
+  if (!isNoFire && (lowerResult.includes("fire") || lowerResult.includes("api") || lowerResult.includes("detected"))) {
+    resultElement.innerText = "🔥 Kebakaran Terdeteksi!";
+    showFireAlarm();
+  } else if (lowerResult.includes("smoke") || lowerResult.includes("asap")) {
+    resultElement.innerText = "💨 Asap Terdeteksi!";
+  } else {
+    resultElement.innerText = "✅ Tidak ada kebakaran terdeteksi.";
+  }
+}
+  // Anda bisa memanggil handleDetectionResult("fire") saat ada deteksi
+</script>
+
+  <script>
+    AOS.init();
+
+    // Navbar background change on scroll
+    window.addEventListener("scroll", () => {
+      const navbar = document.querySelector(".navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+const video = document.getElementById('video');
+const btnStart = document.getElementById('btnStart');
+const btnStop = document.getElementById('btnStop');
+const resultDiv = document.getElementById('result');
+const apiAlert = document.getElementById('apiAlert');
+const fireSound = document.getElementById('fireSound');
+
+let stream = null;
+let intervalId = null;
+
+// Mulai kamera
+btnStart.addEventListener('click', async () => {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+
+    // Ambil frame setiap 5 detik
+    intervalId = setInterval(() => {
+      detectFireFromCamera();
+    }, 5000);
+  } catch (err) {
+    console.error("Tidak bisa akses kamera:", err);
+  }
+});
+
+// Stop kamera
+btnStop.addEventListener('click', () => {
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+    stream = null;
+  }
+  clearInterval(intervalId);
+  intervalId = null;
+});
+
+// Fungsi capture & kirim ke backend
+function detectFireFromCamera() {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const imageData = canvas.toDataURL('image/jpeg');
+
+  fetch('/detect_camera/', {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': getCookie('csrftoken'),
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams({ image: imageData })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.result) {
+      handleDetectionResult(data.result);
+    }
+  })
+  .catch(err => {
+    console.error('Gagal mengirim gambar:', err);
+  });
+}
+
+
+
+const uploadFileInput = document.getElementById('uploadFile');
+const previewContainer = document.getElementById('previewContainer');
+const previewImage = document.getElementById('previewImage');
+const previewVideo = document.getElementById('previewVideo');
+const resultUpload = document.getElementById('resultupload');
+
+uploadFileInput.addEventListener('change', async () => {
+  const file = uploadFileInput.files[0];
+  if (!file) return;
+
+  let url = '';
+  const formData = new FormData();
+
+  if (file.type.startsWith('image/')) {
+    previewImage.src = URL.createObjectURL(file);
+    previewImage.style.display = 'block';
+    previewVideo.style.display = 'none';
+    url = '{% url "upload_image" %}';
+    formData.append('image', file);
+  } else if (file.type.startsWith('video/')) {
+    previewVideo.src = URL.createObjectURL(file);
+    previewVideo.style.display = 'block';
+    previewImage.style.display = 'none';
+    url = '{% url "upload_video" %}';
+    formData.append('video', file);
+  } else {
+    resultUpload.textContent = 'File tidak didukung.';
+    return;
+  }
+
+  previewContainer.style.display = 'block';
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+    });
+
+    const data = await response.json();
+    if (data.result) {
+      resultUpload.textContent = 'Hasil deteksi: ' + data.result;
+      handleDetectionResult(data.result);
+    } else if (data.error) {
+      resultUpload.textContent = 'Error: ' + data.error;
+    }
+  } catch (err) {
+    resultUpload.textContent = 'Request gagal: ' + err.message;
+  }
+});
+
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
+  const sections = document.querySelectorAll("section");
+  let isScrolling = false;
+
+  window.addEventListener("wheel", (e) => {
+    if (isScrolling) return;
+
+    const currentScroll = window.scrollY;
+    const direction = e.deltaY > 0 ? "down" : "up";
+    let targetSection = null;
+
+    for (let i = 0; i < sections.length; i++) {
+      const sectionTop = sections[i].offsetTop;
+      if (currentScroll < sectionTop - 10) {
+        targetSection = direction === "down" ? sections[i] : sections[Math.max(0, i - 1)];
+        break;
+      }
+    }
+
+    if (targetSection) {
+      isScrolling = true;
+      window.scrollTo({
+        top: targetSection.offsetTop,
+        behavior: "smooth"
+      });
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000); // tunggu animasi selesai
+    }
+  }, { passive: true });
+
+
+  const heroBg = document.querySelector('.hero-bg');
+  const images = [
+    "https://i.pinimg.com/736x/7d/1a/ab/7d1aab6bda9b402b482507895cd738b1.jpg",
+    "https://i.pinimg.com/736x/2f/09/fa/2f09fa71eef832df0b469db543f870e8.jpg",
+    "https://i.pinimg.com/736x/fc/24/d5/fc24d585d2af9a73b0f40390bd9609e4.jpg"
+  ];
+
+  let currentIndex = 0;
+  heroBg.style.backgroundImage = `url(${images[currentIndex]})`;
+
+  setInterval(() => {
+    heroBg.style.opacity = 0;
+
+    setTimeout(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      heroBg.style.backgroundImage = `url(${images[currentIndex]})`;
+      heroBg.style.opacity = 1;
+    }, 1000);
+  }, 10000);
+
+  </script>
+</body>
+
+</html>

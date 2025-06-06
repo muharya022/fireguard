@@ -10,7 +10,7 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
   <!-- FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
@@ -148,8 +148,13 @@
       border-radius: 10px;
       padding: 15px;
     }
-
-
+    .nav-item.dropdown:hover > .dropdown-menu {
+      display: block;
+      margin-top: 0; /* agar dropdown tidak bergeser */
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
 
   </style>
 </head>
@@ -182,10 +187,23 @@
             <i class="bi bi-info-circle-fill me-2"></i>About
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#monitoring">
+        <!-- NAVBAR ITEM DROPDOWN -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="deteksiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-broadcast-pin me-2"></i>Deteksi
           </a>
+          <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="deteksiDropdown">
+            <li>
+              <a class="dropdown-item" href="#monitoring" data-scroll-to="#monitoring">
+                <i class="bi bi-camera-video-fill me-2 text-danger"></i> Real-Time Monitoring
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#upload" data-scroll-to="#upload">
+                <i class="bi bi-cloud-upload-fill me-2 text-warning"></i> Upload Gambar
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'history_page' %}">
@@ -205,15 +223,22 @@
 
 <!-- Hero Section -->
 <section id="home" class="hero full-screen" data-aos="fade-up">
-  <div class="hero-bg"></div> <!-- Tambahkan div khusus untuk background -->
-  <div class="overlay"></div> <!-- Tambahkan overlay untuk gelap transparan -->
+  <div class="hero-bg"></div> <!-- Background khusus -->
+  <div class="overlay"></div> <!-- Overlay gelap transparan -->
 
-  <div class="container content">
+  <div class="container content text-center">
     <h1>Sistem Deteksi Kebakaran <i class="bi bi-fire me-2 text-warning"></i>FireGuard</h1>
     <p>Solusi cerdas berbasis AI untuk mendeteksi kebakaran secara cepat dan akurat.</p>
-    <a href="#monitoring" class="btn btn-danger mt-4">
-      <i class="bi bi-camera-video me-2"></i>Deteksi
-    </a>
+
+    <!-- Dua tombol sejajar -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="#monitoring" class="btn btn-danger d-flex align-items-center" style="gap: 0.5rem;">
+        <i class="bi bi-camera-video"></i>Real-Time
+      </a>
+      <a href="#upload" class="btn btn-warning d-flex align-items-center text-white" style="gap: 0.5rem;">
+        <i class="bi bi-cloud-upload"></i>Upload
+      </a>
+    </div>
   </div>
 </section>
 
@@ -322,11 +347,16 @@
           <input type="file" id="uploadFile" accept="image/*,video/*" class="form-control" />
         </div>
 
-        <!-- Preview -->
-        <div id="previewContainer" class="mt-3" style="display:none;">
-          <h5>Preview:</h5>
-          <img id="previewImage" style="max-width: 100%; max-height: 400px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;" />
-          <video id="previewVideo" controls style="max-width: 100%; max-height: 400px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;"></video>
+        <div style="position: relative;">
+          <button id="btnCancelPreview" class="btn btn-sm" style="position: absolute; top: 0; right: 0; display: none;">❌</button>
+            <!-- Preview -->
+            <div id="previewContainer" class="mt-3" style="display:none;">
+              <h5>Preview:</h5>
+              <div class="d-flex justify-content-center">
+              <img id="previewImage" style="max-width: 100%; max-height: 300px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;" />
+              <video id="previewVideo" controls style="max-width: 100%; max-height: 300px; object-fit: contain; display:none; border-radius: 10px; border: 2px solid #00ff00;"></video>        
+              </div>
+            </div>
         </div>
 
         <!-- Result -->
@@ -355,9 +385,10 @@
     <strong>🔥 Kebakaran Terdeteksi!</strong><br>
     Segera hubungi pemadam kebakaran terdekat.<br><br>
 
-    <a href="tel:113" class="btn btn-outline-light btn-sm w-100 mb-2">
-      📞 Telepon 113
+    <a href="tel:113" class="btn btn-danger btn-sm w-100 mb-2">
+      <i class="bi bi-telephone-fill"></i> Telepon 113
     </a>
+
     <a href="https://wa.me/6282311662789?text=Telah%20terjadi%20deteksi%20kebakaran%20di%20lokasi%20[koordinat],%20Mohon%20datang%20secepatnya!!!" 
       class="btn btn-success btn-sm w-100" target="_blank">
       💬 WhatsApp Damkar
@@ -365,11 +396,48 @@
   </div>
 </div>
 
-  <!-- Bootstrap JS Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelectorAll('.nav-item.dropdown').forEach(function(dropdown){
+      dropdown.addEventListener('mouseenter', function(){
+        let dropdownToggle = this.querySelector('.dropdown-toggle');
+        let dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
+        dropdownInstance.show();
+      });
+      dropdown.addEventListener('mouseleave', function(){
+        let dropdownToggle = this.querySelector('.dropdown-toggle');
+        let dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
+        dropdownInstance.hide();
+      });
+    });
+  </script>
 
   <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const anchorLinks = document.querySelectorAll('[data-scroll-to]');
+  let scrollTarget = null;
+
+  anchorLinks.forEach(link => {
+    link.addEventListener('click', function () {
+      scrollTarget = this.getAttribute('data-scroll-to');
+    });
+  });
+
+  const modal = document.getElementById('deteksiModal');
+  modal.addEventListener('hidden.bs.modal', function () {
+    if (scrollTarget) {
+      const target = document.querySelector(scrollTarget);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+      scrollTarget = null;
+    }
+  });
+});
+</script>
+
 
   <script>
   function showFireAlarm() {
@@ -382,7 +450,21 @@
     // Tambahkan animasi bel
     const bellIcon = document.querySelector("#alarmToggle i");
     bellIcon.classList.add("fa-shake");
-    fireSound.play();
+
+    // Play sound (jika tersedia)
+    if (typeof fireSound !== "undefined") {
+      fireSound.play();
+    }
+  }
+
+  function hideFireAlarm() {
+    const floatingAlarm = document.getElementById("floatingAlarm");
+    const alarmPanel = document.getElementById("alarmPanel");
+    const bellIcon = document.querySelector("#alarmToggle i");
+
+    floatingAlarm.style.display = "none";
+    alarmPanel.style.display = "none";
+    bellIcon.classList.remove("fa-shake");
   }
 
   // Toggle panel saat tombol bel diklik
@@ -391,26 +473,27 @@
     panel.style.display = panel.style.display === "none" ? "block" : "none";
   });
 
-  // Contoh pemanggilan ketika deteksi terjadi
-  function handleDetectionResult(result) {
-  const resultElement = document.getElementById("result");
-  const lowerResult = result.toLowerCase();
+  // Fungsi utama deteksi
+  function handleDetectionResult(result, targetElementId = "result") {
+    const resultElement = document.getElementById(targetElementId);
+    const lowerResult = result.toLowerCase();
 
-  console.log("Hasil Deteksi:", lowerResult);
+    console.log("Hasil Deteksi:", lowerResult);
 
-  const isNoFire = lowerResult.includes("nofire") || lowerResult.includes("tidak ada api");
+    const isNoFire = lowerResult.includes("nofire") || lowerResult.includes("tidak ada api");
 
-  if (!isNoFire && (lowerResult.includes("fire") || lowerResult.includes("api") || lowerResult.includes("detected"))) {
-    resultElement.innerText = "🔥 Kebakaran Terdeteksi!";
-    showFireAlarm();
-  } else if (lowerResult.includes("smoke") || lowerResult.includes("asap")) {
-    resultElement.innerText = "💨 Asap Terdeteksi!";
-  } else {
-    resultElement.innerText = "✅ Tidak ada kebakaran terdeteksi.";
+    if (!isNoFire && (lowerResult.includes("fire") || lowerResult.includes("api") || lowerResult.includes("detected"))) {
+      resultElement.innerText = "🔥 Kebakaran Terdeteksi!";
+      showFireAlarm();
+    } else if (lowerResult.includes("smoke") || lowerResult.includes("asap")) {
+      resultElement.innerText = "💨 Asap Terdeteksi!";
+    } else {
+      resultElement.innerText = "✅ Tidak ada kebakaran terdeteksi.";
+    }
   }
-}
-  // Anda bisa memanggil handleDetectionResult("fire") saat ada deteksi
+
 </script>
+
 
   <script>
     AOS.init();
@@ -424,172 +507,6 @@
         navbar.classList.remove("scrolled");
       }
     });
-
-const video = document.getElementById('video');
-const btnStart = document.getElementById('btnStart');
-const btnStop = document.getElementById('btnStop');
-const resultDiv = document.getElementById('result');
-const apiAlert = document.getElementById('apiAlert');
-const fireSound = document.getElementById('fireSound');
-
-let stream = null;
-let intervalId = null;
-
-// Mulai kamera
-btnStart.addEventListener('click', async () => {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    video.srcObject = stream;
-
-    // Ambil frame setiap 5 detik
-    intervalId = setInterval(() => {
-      detectFireFromCamera();
-    }, 5000);
-  } catch (err) {
-    console.error("Tidak bisa akses kamera:", err);
-  }
-});
-
-// Stop kamera
-btnStop.addEventListener('click', () => {
-  if (stream) {
-    stream.getTracks().forEach(track => track.stop());
-    stream = null;
-  }
-  clearInterval(intervalId);
-  intervalId = null;
-});
-
-// Fungsi capture & kirim ke backend
-function detectFireFromCamera() {
-  const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  const imageData = canvas.toDataURL('image/jpeg');
-
-  fetch('/detect_camera/', {
-    method: 'POST',
-    headers: {
-      'X-CSRFToken': getCookie('csrftoken'),
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: new URLSearchParams({ image: imageData })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.result) {
-      handleDetectionResult(data.result);
-    }
-  })
-  .catch(err => {
-    console.error('Gagal mengirim gambar:', err);
-  });
-}
-
-
-
-const uploadFileInput = document.getElementById('uploadFile');
-const previewContainer = document.getElementById('previewContainer');
-const previewImage = document.getElementById('previewImage');
-const previewVideo = document.getElementById('previewVideo');
-const resultUpload = document.getElementById('resultupload');
-
-uploadFileInput.addEventListener('change', async () => {
-  const file = uploadFileInput.files[0];
-  if (!file) return;
-
-  let url = '';
-  const formData = new FormData();
-
-  if (file.type.startsWith('image/')) {
-    previewImage.src = URL.createObjectURL(file);
-    previewImage.style.display = 'block';
-    previewVideo.style.display = 'none';
-    url = '{% url "upload_image" %}';
-    formData.append('image', file);
-  } else if (file.type.startsWith('video/')) {
-    previewVideo.src = URL.createObjectURL(file);
-    previewVideo.style.display = 'block';
-    previewImage.style.display = 'none';
-    url = '{% url "upload_video" %}';
-    formData.append('video', file);
-  } else {
-    resultUpload.textContent = 'File tidak didukung.';
-    return;
-  }
-
-  previewContainer.style.display = 'block';
-
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
-      },
-    });
-
-    const data = await response.json();
-    if (data.result) {
-      resultUpload.textContent = 'Hasil deteksi: ' + data.result;
-      handleDetectionResult(data.result);
-    } else if (data.error) {
-      resultUpload.textContent = 'Error: ' + data.error;
-    }
-  } catch (err) {
-    resultUpload.textContent = 'Request gagal: ' + err.message;
-  }
-});
-
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-      cookie = cookie.trim();
-      if (cookie.startsWith(name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
-
-  const sections = document.querySelectorAll("section");
-  let isScrolling = false;
-
-  window.addEventListener("wheel", (e) => {
-    if (isScrolling) return;
-
-    const currentScroll = window.scrollY;
-    const direction = e.deltaY > 0 ? "down" : "up";
-    let targetSection = null;
-
-    for (let i = 0; i < sections.length; i++) {
-      const sectionTop = sections[i].offsetTop;
-      if (currentScroll < sectionTop - 10) {
-        targetSection = direction === "down" ? sections[i] : sections[Math.max(0, i - 1)];
-        break;
-      }
-    }
-
-    if (targetSection) {
-      isScrolling = true;
-      window.scrollTo({
-        top: targetSection.offsetTop,
-        behavior: "smooth"
-      });
-      setTimeout(() => {
-        isScrolling = false;
-      }, 1000); // tunggu animasi selesai
-    }
-  }, { passive: true });
-
 
   const heroBg = document.querySelector('.hero-bg');
   const images = [
@@ -610,7 +527,191 @@ function getCookie(name) {
       heroBg.style.opacity = 1;
     }, 1000);
   }, 10000);
+  </script>
 
+  <script>
+    const video = document.getElementById('video');
+    const btnStart = document.getElementById('btnStart');
+    const btnStop = document.getElementById('btnStop');
+    const resultDiv = document.getElementById('result');
+    const apiAlert = document.getElementById('apiAlert');
+    const fireSound = document.getElementById('fireSound');
+
+    let stream = null;
+    let intervalId = null;
+
+    // Mulai kamera
+    btnStart.addEventListener('click', async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+
+        // Ambil frame setiap 5 detik
+        intervalId = setInterval(() => {
+          detectFireFromCamera();
+        }, 5000);
+      } catch (err) {
+        console.error("Tidak bisa akses kamera:", err);
+      }
+    });
+
+    // Stop kamera
+    btnStop.addEventListener('click', () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      clearInterval(intervalId);
+      intervalId = null;
+
+      resultDiv.innerText = "Belum ada deteksi";
+      hideFireAlarm();
+    });
+
+    // Fungsi capture & kirim ke backend
+    function detectFireFromCamera() {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL('image/jpeg');
+
+      fetch('/detect_camera/', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ image: imageData })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.result) {
+          handleDetectionResult(data.result, "result");
+        }
+      })
+      .catch(err => {
+        console.error('Gagal mengirim gambar:', err);
+      });
+    }
+  </script>
+
+  <script>
+    const uploadFileInput = document.getElementById('uploadFile');
+const previewContainer = document.getElementById('previewContainer');
+const previewImage = document.getElementById('previewImage');
+const previewVideo = document.getElementById('previewVideo');
+const resultUpload = document.getElementById('resultupload');
+const btnCancelPreview = document.getElementById('btnCancelPreview');
+
+uploadFileInput.addEventListener('change', async () => {
+  const file = uploadFileInput.files[0];
+  if (!file) return;
+
+  let url = '';
+  const formData = new FormData();
+
+  // Tampilkan preview dan tombol cancel
+  previewContainer.style.display = 'block';
+  btnCancelPreview.style.display = 'inline-block';
+
+  if (file.type.startsWith('image/')) {
+    previewImage.src = URL.createObjectURL(file);
+    previewImage.style.display = 'block';
+    previewVideo.style.display = 'none';
+    url = '{% url "upload_image" %}';
+    formData.append('image', file);
+  } else if (file.type.startsWith('video/')) {
+    previewVideo.src = URL.createObjectURL(file);
+    previewVideo.style.display = 'block';
+    previewImage.style.display = 'none';
+    url = '{% url "upload_video" %}';
+    formData.append('video', file);
+  } else {
+    resultUpload.textContent = 'File tidak didukung.';
+    return;
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
+    });
+
+    const data = await response.json();
+    if (data.result) {
+      resultUpload.textContent = 'Hasil deteksi: ' + data.result;
+      handleDetectionResult(data.result, "resultupload");
+    } else if (data.error) {
+      resultUpload.textContent = 'Error: ' + data.error;
+    }
+  } catch (err) {
+    resultUpload.textContent = 'Request gagal: ' + err.message;
+  }
+});
+
+// Event tombol cancel preview
+btnCancelPreview.addEventListener('click', () => {
+  previewImage.src = '';
+  previewVideo.src = '';
+  previewImage.style.display = 'none';
+  previewVideo.style.display = 'none';
+  previewContainer.style.display = 'none';
+  btnCancelPreview.style.display = 'none';
+  resultUpload.textContent = 'Belum ada deteksi';
+  uploadFileInput.value = ''; // reset file input
+});
+
+function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+  </script>
+  <script>
+    const sections = document.querySelectorAll("section");
+    let isScrolling = false;
+
+    window.addEventListener("wheel", (e) => {
+      if (isScrolling) return;
+
+      const currentScroll = window.scrollY;
+      const direction = e.deltaY > 0 ? "down" : "up";
+      let targetSection = null;
+
+      for (let i = 0; i < sections.length; i++) {
+        const sectionTop = sections[i].offsetTop;
+        if (currentScroll < sectionTop - 10) {
+          targetSection = direction === "down" ? sections[i] : sections[Math.max(0, i - 1)];
+          break;
+        }
+      }
+
+      if (targetSection) {
+        isScrolling = true;
+        window.scrollTo({
+          top: targetSection.offsetTop,
+          behavior: "smooth"
+        });
+        setTimeout(() => {
+          isScrolling = false;
+        }, 1000); // tunggu animasi selesai
+      }
+    }, { passive: true });
   </script>
 </body>
 

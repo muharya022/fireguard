@@ -142,6 +142,13 @@
       padding: 6px 12px;
       transition: all 0.3s ease;
     }
+      .nav-item.dropdown:hover > .dropdown-menu {
+      display: block;
+      margin-top: 0; /* agar dropdown tidak bergeser */
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
 </style>
 
 </head>
@@ -165,19 +172,31 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">
+          <a class="nav-link" href="{% url 'index' %}#features">
             <i class="bi bi-stars me-2"></i>Feature
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">
+          <a class="nav-link" href="{% url 'index' %}#about">
             <i class="bi bi-info-circle-fill me-2"></i>About
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="deteksiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-broadcast-pin me-2"></i>Deteksi
           </a>
+          <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="deteksiDropdown">
+            <li>
+              <a class="dropdown-item" href="{% url 'index' %}#monitoring" data-scroll-to="#monitoring">
+                <i class="bi bi-camera-video-fill me-2 text-danger"></i> Real-Time Monitoring
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'index' %}#upload" data-scroll-to="#upload">
+                <i class="bi bi-cloud-upload-fill me-2 text-warning"></i> Upload Gambar
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'history_page' %}">
@@ -217,7 +236,7 @@
       </div>
       <form id="chat-form" autocomplete="off">
   <input id="message" type="text" placeholder="Tanyakan sesuatu..." required />
-  <button type="submit"><i class="bi bi-send"></i> Kirim</button>
+  <button type="submit"><i class="bi bi-send me-2"></i> Kirim</button>
 </form>
     </div>
   </div>
@@ -227,6 +246,22 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelectorAll('.nav-item.dropdown').forEach(function(dropdown){
+      dropdown.addEventListener('mouseenter', function(){
+        let dropdownToggle = this.querySelector('.dropdown-toggle');
+        let dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
+        dropdownInstance.show();
+      });
+      dropdown.addEventListener('mouseleave', function(){
+        let dropdownToggle = this.querySelector('.dropdown-toggle');
+        let dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
+        dropdownInstance.hide();
+      });
+    });
+  </script>
+
 
 <script>
   // Navbar change background on scroll
@@ -278,7 +313,7 @@
 
     // Cari jawaban sesuai kata kunci
     let lower = userMsg.toLowerCase();
-    let reply = "Maaf, saya belum mengerti pertanyaan kamu.";
+    let reply = "Maaf, saya belum mengerti pertanyaan kamu. Coba lihat pertanyaan di sebelah kanan jika ada yg mau di tanyakan";
 
     for (const key in faqs) {
       if (lower.includes(key)) {
@@ -300,6 +335,39 @@
     });
   });
 </script>
+
+<div class="modal fade" id="deteksiModal" tabindex="-1" aria-labelledby="deteksiModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deteksiModalLabel">Pilih Jenis Deteksi</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Silakan pilih jenis deteksi yang ingin digunakan:</p>
+        <a href="#monitoring" class="btn btn-danger m-2" data-bs-dismiss="modal">
+          <i class="fa-solid fa-video me-2"></i>Real Time
+        </a>
+        <a href="#upload" class="btn btn-warning m-2" data-bs-dismiss="modal">
+          <i class="fa-solid fa-upload me-2"></i>Upload Gambar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
 
 </body>
 </html>

@@ -81,7 +81,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container mb-2 mt-2">
     <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
-      <i class="bi bi-fire me-2 text-warning"></i> FireGuard
+      DetectFire
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,26 +94,11 @@
             <i class="bi bi-house-door-fill me-2"></i>Home
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}#features">
-            <i class="bi bi-stars me-2"></i>Feature
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'index' %}#about">
-            <i class="bi bi-info-circle-fill me-2"></i>About
-          </a>
-        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="deteksiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-broadcast-pin me-2"></i>Deteksi
           </a>
           <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="deteksiDropdown">
-            <li>
-              <a class="dropdown-item" href="{% url 'index' %}#monitoring" data-scroll-to="#monitoring">
-                <i class="bi bi-camera-video-fill me-2 text-danger"></i> Real-Time Monitoring
-              </a>
-            </li>
             <li>
               <a class="dropdown-item" href="{% url 'index' %}#upload" data-scroll-to="#upload">
                 <i class="bi bi-cloud-upload-fill me-2 text-warning"></i> Upload Gambar
@@ -124,11 +109,6 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'history_page' %}">
             <i class="bi bi-clock-history me-2"></i>History
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'chat' %}">
-            <i class="bi bi-robot me-2"></i>Chat Ai Bot
           </a>
         </li>
       </ul>
@@ -184,10 +164,6 @@
               <div class="flex-grow-1">
                 <p class="mb-1"><strong>{{ item.timestamp|date:"d M Y H:i:s" }}</strong></p>
                 <p class="mb-1">Nama File: <span class="text-warning">{{ item.filename }}</span></p>
-                <p class="mb-1">IP: {{ item.ip_address }}</p>
-                <p class="mb-1">Lokasi: {{ item.city }}, {{ item.country }}</p>
-                <p class="mb-1">Koordinat: {{ item.latitude }}, {{ item.longitude }}</p>
-                <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ item.latitude }},{{ item.longitude }}" class="btn btn-sm btn-outline-light">Lihat di Map</a>
                 <p class="mb-2">Hasil Deteksi: <em>{{ item.result }}</em></p>
 
                 {% with item.result|lower as res %}

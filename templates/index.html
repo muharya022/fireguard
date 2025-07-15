@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FireGuard</title>
+  <title>DetectFire</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -164,7 +164,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
   <div class="container mb-2 mt-2">
     <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
-      <i class="bi bi-fire me-2 text-warning"></i> FireGuard
+      DetectFire
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -177,27 +177,12 @@
             <i class="bi bi-house-door-fill me-2"></i>Home
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#features">
-            <i class="bi bi-stars me-2"></i>Feature
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">
-            <i class="bi bi-info-circle-fill me-2"></i>About
-          </a>
-        </li>
         <!-- NAVBAR ITEM DROPDOWN -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="deteksiDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-broadcast-pin me-2"></i>Deteksi
           </a>
           <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="deteksiDropdown">
-            <li>
-              <a class="dropdown-item" href="#monitoring" data-scroll-to="#monitoring">
-                <i class="bi bi-camera-video-fill me-2 text-danger"></i> Real-Time Monitoring
-              </a>
-            </li>
             <li>
               <a class="dropdown-item" href="#upload" data-scroll-to="#upload">
                 <i class="bi bi-cloud-upload-fill me-2 text-warning"></i> Upload Gambar
@@ -208,11 +193,6 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'history_page' %}">
             <i class="bi bi-clock-history me-2"></i>History
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'chat' %}">
-            <i class="bi bi-robot me-2"></i>Chat Ai Bot
           </a>
         </li>
       </ul>
@@ -227,109 +207,14 @@
   <div class="overlay"></div> <!-- Overlay gelap transparan -->
 
   <div class="container content text-center">
-    <h1>Sistem Deteksi Kebakaran <i class="bi bi-fire me-2 text-warning"></i>FireGuard</h1>
-    <p>Solusi cerdas berbasis AI untuk mendeteksi kebakaran secara cepat dan akurat.</p>
+    <h1>Sistem DetectFire <i class="bi bi-fire me-2 text-warning"></i></h1>
+    <p>Mendeteksi api dengan cepat dan akurat</p>
 
     <!-- Dua tombol sejajar -->
     <div class="d-flex justify-content-center gap-3 mt-4">
-      <a href="#monitoring" class="btn btn-danger d-flex align-items-center" style="gap: 0.5rem;">
-        <i class="bi bi-camera-video"></i>Real-Time
-      </a>
       <a href="#upload" class="btn btn-warning d-flex align-items-center text-white" style="gap: 0.5rem;">
         <i class="bi bi-cloud-upload"></i>Upload
       </a>
-    </div>
-  </div>
-</section>
-
-
-  <!-- Fungsi Aplikasi Section -->
-  <section id="features" class="section full-screen bg-dark text-white" data-aos="fade-up">
-    <div class="container text-center">
-      <h2 class="mb-5">Fungsi Aplikasi</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="feature-card">
-            <i class="fa-solid fa-bolt fa-3x text-danger"></i>
-            <h4 class="my-3">Deteksi Cepat</h4>
-            <p>Aplikasi mampu mendeteksi kebakaran dan asap secara real-time menggunakan teknologi AI.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-card">
-            <i class="fa-solid fa-shield-halved fa-3x text-warning"></i>
-            <h4 class="my-3">Peringatan Dini</h4>
-            <p>Memberikan notifikasi dan alarm secara otomatis untuk mencegah kerusakan lebih besar.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-card">
-            <i class="fa-solid fa-chart-line fa-3x text-success"></i>
-            <h4 class="my-3">Laporan & Statistik</h4>
-            <p>Menyediakan data lengkap dan analisa kebakaran untuk pengambilan keputusan yang tepat.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Detection Results Section -->
-  <section id="about" class="section full-screen bg-dark text-white text-center" data-aos="fade-up">
-    <div class="container">
-      <h2 class="mb-5">DETECTION RESULTS</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-white shadow-lg border-0">
-            <img src="{% static 'images/fire.jpg' %}" class="card-img-top" alt="Fire Detected" />
-            <div class="card-body">
-              <h5 class="card-title text-danger fw-bold"><i class="bi bi-fire me-2"></i>Fire / Smoke Fire Detected</h5>
-              <p class="card-text">Area identified with potential fire hazard. Immediate response required.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-white shadow-lg border-0">
-            <img src="{% static 'images/nofire.jpeg' %}" class="card-img-top" alt="No Fire" />
-            <div class="card-body">
-              <h5 class="card-title text-success fw-bold"><i class="bi bi-check-circle-fill me-2"></i>No Fire</h5>
-              <p class="card-text">This area is currently safe and shows no signs of fire or smoke.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card bg-dark text-white shadow-lg border-0">
-            <img src="{% static 'images/smoke.jpeg' %}" class="card-img-top" alt="Smoke Detected" />
-            <div class="card-body">
-              <h5 class="card-title text-warning fw-bold"><i class="bi bi-cloud-fog2-fill me-2"></i>Smoke Detected</h5>
-              <p class="card-text">Smoke detected in the vicinity; monitoring closely for fire risk.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- Real Time Monitoring Section -->
-<section id="monitoring" class="section full-screen bg-dark text-white" data-aos="fade-up">
-  <div class="container">
-    <h2 class="mb-5 text-center">Real Time Monitoring</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-6 text-center">
-        <video id="video" width="80%" height="auto" autoplay muted playsinline style="border-radius: 10px; border: 2px solid #ff4500;"></video>
-        <div class="mt-3">
-          <button id="btnStart" class="btn btn-danger me-2">
-            <i class="fa-solid fa-video"></i> Start Camera
-          </button>
-          <button id="btnStop" class="btn btn-secondary">
-            <i class="fa-solid fa-stop"></i> Stop Camera
-          </button>
-        </div>
-        <!-- Static file: alarm.mp3 -->
-        <audio id="fireSound" src="{% static 'audio/alarm.wav' %}" preload="auto"></audio>
-
-        <div id="result" class="mt-3 text-warning fw-bold text-center">Belum ada deteksi</div>
-
-      </div>
     </div>
   </div>
 </section>
@@ -510,9 +395,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const heroBg = document.querySelector('.hero-bg');
   const images = [
-    "https://i.pinimg.com/736x/7d/1a/ab/7d1aab6bda9b402b482507895cd738b1.jpg",
-    "https://i.pinimg.com/736x/2f/09/fa/2f09fa71eef832df0b469db543f870e8.jpg",
-    "https://i.pinimg.com/736x/fc/24/d5/fc24d585d2af9a73b0f40390bd9609e4.jpg"
+    "https://i.pinimg.com/736x/00/0c/80/000c80a99297b6eeeba80d87d795e5f5.jpg"
   ];
 
   let currentIndex = 0;
@@ -527,74 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
       heroBg.style.opacity = 1;
     }, 1000);
   }, 10000);
-  </script>
-
-  <script>
-    const video = document.getElementById('video');
-    const btnStart = document.getElementById('btnStart');
-    const btnStop = document.getElementById('btnStop');
-    const resultDiv = document.getElementById('result');
-    const apiAlert = document.getElementById('apiAlert');
-    const fireSound = document.getElementById('fireSound');
-
-    let stream = null;
-    let intervalId = null;
-
-    // Mulai kamera
-    btnStart.addEventListener('click', async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-
-        // Ambil frame setiap 5 detik
-        intervalId = setInterval(() => {
-          detectFireFromCamera();
-        }, 5000);
-      } catch (err) {
-        console.error("Tidak bisa akses kamera:", err);
-      }
-    });
-
-    // Stop kamera
-    btnStop.addEventListener('click', () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-        stream = null;
-      }
-      clearInterval(intervalId);
-      intervalId = null;
-
-      resultDiv.innerText = "Belum ada deteksi";
-      hideFireAlarm();
-    });
-
-    // Fungsi capture & kirim ke backend
-    function detectFireFromCamera() {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const imageData = canvas.toDataURL('image/jpeg');
-
-      fetch('/detect_camera/', {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({ image: imageData })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.result) {
-          handleDetectionResult(data.result, "result");
-        }
-      })
-      .catch(err => {
-        console.error('Gagal mengirim gambar:', err);
-      });
-    }
   </script>
 
   <script>
